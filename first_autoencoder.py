@@ -16,22 +16,22 @@ print(X_test.shape)
 
 #Neural net
 input_img = Input(shape=(784,))
-
-encoded = Dense(units=128, activation='relu')(input_img)
-encoded = Dense(units=64, activation='relu')(encoded)
-encoded = Dense(units=32, activation='relu')(encoded)
+#x²
+encoded = Dense(units=441, activation='relu')(input_img)
+encoded = Dense(units=256, activation='relu')(encoded)
+encoded = Dense(units=100, activation='relu')(encoded)
+encoded = Dense(units=25, activation='relu')(encoded)
 encoded = Dense(units=16, activation='relu')(encoded)
-encoded = Dense(units=8, activation='relu')(encoded)
 encoded = Dense(units=4, activation='relu')(encoded)
 
-decoded = Dense(units=8, activation='relu')(encoded)
 decoded = Dense(units=16, activation='relu')(encoded)
-decoded = Dense(units=32, activation='relu')(encoded)
-decoded = Dense(units=64, activation='relu')(encoded)
-decoded = Dense(units=128, activation='relu')(decoded)
+decoded = Dense(units=25, activation='relu')(encoded)
+decoded = Dense(units=100, activation='relu')(encoded)
+decoded = Dense(units=256, activation='relu')(encoded)
+decoded = Dense(units=441, activation='relu')(decoded)
 decoded = Dense(units=784, activation='sigmoid')(decoded)
 
-autoencoder=Model(input_img, decoded)
+autoencoder = Model(input_img, decoded)
 
 encoder = Model(input_img, encoded)
 
@@ -42,7 +42,7 @@ encoder.summary()
 autoencoder.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 autoencoder.fit(X_train, X_train,
-                epochs=1000,
+                epochs=400,
                 batch_size=256,
                 shuffle=True,
                 validation_data=(X_test, X_test))
