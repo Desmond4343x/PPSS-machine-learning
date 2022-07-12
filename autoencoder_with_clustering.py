@@ -32,21 +32,9 @@ print(X_test.shape)
 
 #Neural net
 input_img = Input(shape=(784,))
-#cosh
 
-encoded = Dense(units=628, activation='relu')(input_img)
-encoded = Dense(units=180, activation='relu')(encoded)
-encoded = Dense(units=66, activation='relu')(encoded)
-encoded = Dense(units=19, activation='relu')(encoded)
-encoded = Dense(units=8, activation='relu')(encoded)
-encoded = Dense(units=4, activation='relu')(encoded)
+#architecture
 
-decoded = Dense(units=8, activation='relu')(encoded)
-decoded = Dense(units=19, activation='relu')(decoded)
-decoded = Dense(units=66, activation='relu')(decoded)
-decoded = Dense(units=180, activation='relu')(decoded)
-decoded = Dense(units=628, activation='relu')(decoded)
-decoded = Dense(units=784, activation='sigmoid')(decoded)
 
 autoencoder = Model(input_img, decoded)
 
@@ -59,7 +47,7 @@ encoder.summary()
 autoencoder.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 autoencoder.fit(X_train, X_train,
-                epochs=400,
+                epochs=4,
                 batch_size=256,
                 shuffle=True,
                 validation_data=(X_test, X_test))
@@ -81,7 +69,7 @@ for i in range(10):
 
 	# display encoded images
 	ax = plt.subplot(3, 20, i + 1 + 20)
-	plt.imshow(encoded_imgs[i].reshape(2, 2))
+	plt.imshow(encoded_imgs[i].reshape(1, 2))
 	plt.gray()
 	ax.get_xaxis().set_visible(False)
 	ax.get_yaxis().set_visible(False)
