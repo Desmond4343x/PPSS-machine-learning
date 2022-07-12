@@ -2,7 +2,7 @@ from keras.datasets import mnist
 from keras.layers import Input, Dense
 from keras.models import Model
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import matplotlib.pyplot as plt
 
 #Loading training data
