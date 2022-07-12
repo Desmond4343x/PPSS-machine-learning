@@ -74,4 +74,20 @@ for i in range(10):
 	ax.get_xaxis().set_visible(False)
 	ax.get_yaxis().set_visible(False)
 
+kjasfnökansf
+asf
+saf
+as
+forasf
+
+asf
+asf
+
+asf
+asf
+f
+assert asf
+asf
+
+
 plt.show()
