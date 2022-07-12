@@ -16,20 +16,20 @@ print(X_test.shape)
 
 #Neural net
 input_img = Input(shape=(784,))
-#log
+#x²
 
-encoded = Dense(units=708, activation='relu')(input_img)
-encoded = Dense(units=663, activation='relu')(encoded)
-encoded = Dense(units=416, activation='relu')(encoded)
+encoded = Dense(units=441, activation='relu')(input_img)
+encoded = Dense(units=256, activation='relu')(encoded)
+encoded = Dense(units=100, activation='relu')(encoded)
 encoded = Dense(units=25, activation='relu')(encoded)
-encoded = Dense(units=8, activation='relu')(encoded)
+encoded = Dense(units=16, activation='relu')(encoded)
 encoded = Dense(units=4, activation='relu')(encoded)
 
-decoded = Dense(units=8, activation='relu')(encoded)
-decoded = Dense(units=25, activation='relu')(encoded)
-decoded = Dense(units=416, activation='relu')(encoded)
-decoded = Dense(units=663, activation='relu')(encoded)
-decoded = Dense(units=708, activation='relu')(decoded)
+decoded = Dense(units=16, activation='relu')(encoded)
+decoded = Dense(units=25, activation='relu')(decoded)
+decoded = Dense(units=100, activation='relu')(decoded)
+decoded = Dense(units=256, activation='relu')(decoded)
+decoded = Dense(units=441, activation='relu')(decoded)
 decoded = Dense(units=784, activation='sigmoid')(decoded)
 
 autoencoder = Model(input_img, decoded)
