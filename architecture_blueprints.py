@@ -36,7 +36,7 @@ encoded = Dense(units=25, activation='relu')(encoded)
 encoded = Dense(units=16, activation='relu')(encoded)
 encoded = Dense(units=4, activation='relu')(encoded)
 
-decoded = Dense(units=16, activation='relu')(decoded)
+decoded = Dense(units=16, activation='relu')(encoded)
 decoded = Dense(units=25, activation='relu')(decoded)
 decoded = Dense(units=100, activation='relu')(decoded)
 decoded = Dense(units=256, activation='relu')(decoded)
