@@ -3,6 +3,23 @@ from keras.layers import Input, Dense
 from keras.models import Model
 import numpy as np
 import matplotlib.pyplot as plt
+from keras.datasets import mnist
+import numpy as np
+np.random.seed(10)
+
+from time import time
+import numpy as np
+import keras.backend as K
+from tensorflow.python.keras.layers import Layer, InputSpec
+from keras.layers import Dense, Input, Dropout
+from keras.models import Model
+from tensorflow.keras.optimizers import SGD
+from keras import callbacks
+from keras.initializers import VarianceScaling
+from sklearn.cluster import KMeans
+import sklearn.metrics
+
+
 
 #Loading training data
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
@@ -22,7 +39,7 @@ encoded = Dense(units=256, activation='relu')(encoded)
 encoded = Dense(units=100, activation='relu')(encoded)
 encoded = Dense(units=25, activation='relu')(encoded)
 encoded = Dense(units=16, activation='relu')(encoded)
-encoded = Dense(units=4, activation='relu')(encoded)
+encoded = Dense(units=4, activation='linear')(encoded)
 
 decoded = Dense(units=16, activation='relu')(encoded)
 decoded = Dense(units=25, activation='relu')(decoded)
@@ -42,7 +59,7 @@ encoder.summary()
 autoencoder.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 autoencoder.fit(X_train, X_train,
-                epochs=2,
+                epochs=400,
                 batch_size=256,
                 shuffle=True,
                 validation_data=(X_test, X_test))
