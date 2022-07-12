@@ -32,14 +32,14 @@ print(X_test.shape)
 
 #Neural net
 input_img = Input(shape=(784,))
-#log
+#cosh
 
 encoded = Dense(units=628, activation='relu')(input_img)
 encoded = Dense(units=180, activation='relu')(encoded)
 encoded = Dense(units=66, activation='relu')(encoded)
 encoded = Dense(units=19, activation='relu')(encoded)
 encoded = Dense(units=8, activation='relu')(encoded)
-encoded = Dense(units=4, activation='linear')(encoded)
+encoded = Dense(units=4, activation='relu')(encoded)
 
 decoded = Dense(units=8, activation='relu')(encoded)
 decoded = Dense(units=19, activation='relu')(decoded)
