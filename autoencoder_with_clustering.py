@@ -32,23 +32,24 @@ print(X_test.shape)
 
 # hyper parameters
 batch_size = 256
-epochs = 2
-bottle_dim = 10
+epochs = 200
+bottle_dim = 4
 # Neural net
 input_img = Input(shape=(784,))
-
 # architecture
-encoded = Dense(units=2000, activation='relu')(input_img)
-encoded = Dense(units=256, activation='relu')(encoded)
-encoded = Dense(units=256, activation='relu')(encoded)
-encoded = Dense(units=256, activation='relu')(encoded)
-encoded = Dense(units=256, activation='relu')(encoded)
+encoded = Dense(units=608, activation='relu')(input_img)
+encoded = Dense(units=568, activation='relu')(encoded)
+encoded = Dense(units=492, activation='relu')(encoded)
+encoded = Dense(units=23, activation='relu')(encoded)
+encoded = Dense(units=15, activation='relu')(encoded)
 encoded = Dense(units=bottle_dim, activation='linear')(encoded)
 
-decoded = Dense(units=256, activation='relu')(encoded)
-decoded = Dense(units=256, activation='relu')(decoded)
-decoded = Dense(units=256, activation='relu')(decoded)
-decoded = Dense(units=256, activation='relu')(decoded)
+decoded = Dense(units=15, activation='relu')(encoded)
+decoded = Dense(units=23, activation='relu')(decoded)
+decoded = Dense(units=492, activation='relu')(decoded)
+decoded = Dense(units=568, activation='relu')(decoded)
+decoded = Dense(units=608, activation='relu')(decoded)
+
 decoded = Dense(units=784, activation='sigmoid')(decoded)
 
 autoencoder = Model(input_img, decoded)
@@ -82,17 +83,19 @@ def loss_plot():
 	plt.xlabel('epoch')
 	plt.legend(['train loss'], loc='upper left')
 	plt.show(block=False)
+loss_plot()
 
 
 
 #Clustering
 def clustering():
+	encoded_imgs = encoder.predict(X_test)
 	kmeans = KMeans(n_clusters=10, n_init=100)
 	y_pred_kmeans = kmeans.fit_predict(encoded_imgs)
 	y_pred_kmeans[:10]
 	#Scoring
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
-	print(score)
+	print("score is: ", score)
 clustering()
 
 
