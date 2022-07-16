@@ -33,29 +33,17 @@ print(X_test.shape)
 # hyper parameters
 batch_size = 256
 epochs = 200
-bottle_dim = 4
+bottle_dim = 10
 # Neural net
-###############################################################################################################
+########################################################################################################################
 #Input layer
 input_img = Input(shape=(784,))
 # architecture
-encoded = Dense(units=794, activation='relu')(input_img)
-encoded = Dropout(0.8)(encoded)
-encoded = Dense(units=628, activation='relu')(encoded)
-encoded = Dropout(0.6)(encoded)
+encoded = Dense(units=3000, activation='relu')(input_img)
 encoded = Dense(units=461, activation='relu')(encoded)
-encoded = Dropout(0.5)(encoded)
-encoded = Dense(units=321, activation='relu')(encoded)
-encoded = Dropout(0.5)(encoded)
 encoded = Dense(units=180, activation='relu')(encoded)
-encoded = Dropout(0.2)(encoded)
-encoded = Dense(units=113, activation='relu')(encoded)
-encoded = Dropout(0.2)(encoded)
 encoded = Dense(units=45, activation='relu')(encoded)
-encoded = Dense(units=37, activation='relu')(encoded)
-encoded = Dropout(0.2)(encoded)
 encoded = Dense(units=29, activation='relu')(encoded)
-encoded = Dense(units=16, activation='relu')(encoded)
 encoded = Dense(units=bottle_dim, activation='linear')(encoded)
 
 decoded = Dense(units=29, activation='relu')(encoded)
