@@ -1,0 +1,6 @@
+#sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
+
+These structures but with dropout
+x² intermediate layers test-score =
+x² removed layers test-score =
+x² large filter layer test-score =
