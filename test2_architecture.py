@@ -75,7 +75,7 @@ decoded = Dense(units=300, activation='relu')(decoded)
 decoded = Dense(units=500, activation='relu')(decoded)
 decoded = Dense(units=700, activation='relu')(decoded)
 
-#Triangle with removed layers: Hidden param=
+#Triangle with removed layers: Hidden param= 0.775 million
 encoded = Dense(units=700, activation='relu')(input_img)
 encoded = Dense(units=300, activation='relu')(encoded)
 encoded = Dense(units=50, activation='relu')(encoded)
@@ -88,7 +88,7 @@ decoded = Dense(units=500, activation='relu')(decoded)
 decoded = Dense(units=700, activation='relu')(decoded)
 
 
-#triangle with enlarging layer: Hidden param=
+#triangle with enlarging layer: Hidden param= 4.043 million
 encoded = Dense(units=3000, activation='relu')(input_img)
 encoded = Dense(units=500, activation='relu')(encoded)
 encoded = Dense(units=300, activation='relu')(encoded)
