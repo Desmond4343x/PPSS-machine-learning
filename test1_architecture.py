@@ -4,6 +4,7 @@
 
 
 #Triangle hidden layers test 1.086 million hidden param in encode layer
+#Winner
 encoded = Dense(units=700, activation='relu')(input_img)
 encoded = Dense(units=500, activation='relu')(encoded)
 encoded = Dense(units=300, activation='relu')(encoded)
@@ -33,6 +34,7 @@ decoded = Dense(units=440, activation='relu')(decoded)
 decoded = Dense(units=440, activation='relu')(decoded)
 
 #x² hidden layers test 1.082 million param in encoder layer
+#Winner
 encoded = Dense(units=794, activation='relu')(input_img)
 encoded = Dense(units=461, activation='relu')(encoded)
 encoded = Dense(units=180, activation='relu')(encoded)
