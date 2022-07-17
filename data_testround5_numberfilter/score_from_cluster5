@@ -4,17 +4,17 @@ Bottleneck dimension:test-score=
 
 3:test-score= 0.6747204235674696
 4:test-score= 0.8046175114716576
-5:test-score=
-6:test-score=
-8:test-score=
+5:test-score= 0.8451344173342598
+6:test-score= 0.8137834926210714
+8:test-score= 0.7812627702429406
 
 numbers 3-6
 Bottleneck dimension:test-score=
 
-3:test-score=
-4:test-score=
-5:test-score=
-6:test-score=
+3:test-score= 0.7138302441356791
+4:test-score= 0.8229263131388356
+5:test-score= 0.8134964256580653
+6:test-score= 0.8185452420871766
 8:test-score=
 
 numbers 6-9
