@@ -1,6 +1,6 @@
 #Test round 2, adding intermediate layers on winners from test1. Resulting on 6 new archs, new parameters added:
 #Large filter layer before first hidden layer to see how that effects, removing 2 hidden layers, number 2 and 4.
-#Lastly adding one layer between every encoded one with width. dim(n) = (dim(n-1)+dim(n+1)/2).
+#Lastly adding one layer between every encoded one with width. dim(n) = (dim(n-1)+dim(n+1))/2.
 #parameters that is the same: bottleneck dim for first test round is 4, epochs 200
 #batchsize 256. Activation relu in all hidden layers except bottle which is linear. sigmoid in end
 
