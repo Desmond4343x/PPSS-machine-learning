@@ -31,6 +31,7 @@ print(X_test.shape)
 
 
 # hyper parameters
+
 batch_size = 256
 epochs = 200
 bottle_dim = 10
