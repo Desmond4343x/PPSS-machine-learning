@@ -1,7 +1,7 @@
 #epochs 200
 #batchsize 256. Activation relu in all hidden layers except bottle which is linear. sigmoid in end
 
-#Test arch for bottleneck dim 2,3,4,5,6,8,10
+#Test arch for bottleneck dim 2,3,4,5,6,8,10. x² with filter layer
 encoded = Dense(units=3000, activation='relu')(input_img)
 encoded = Dense(units=461, activation='relu')(encoded)
 encoded = Dense(units=180, activation='relu')(encoded)
