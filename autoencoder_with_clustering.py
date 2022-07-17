@@ -32,7 +32,7 @@ print(X_test.shape)
 
 # hyper parameters
 batch_size = 256
-epochs = 200
+epochs = 2
 bottle_dim = 10
 # Neural net
 ########################################################################################################################
@@ -99,7 +99,6 @@ def clustering():
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
 	print("score is: ", score)
 clustering()
-
 
 # Plots the figueres
 def plot_numbers():

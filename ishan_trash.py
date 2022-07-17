@@ -1,9 +1,5 @@
 import matplotlib.pyplot as plt
-f = plt.figure(1)
-plt.plot([1,2],[2,3])
-f.show()
-
-g = plt.figure(2)
-plt.plot([2,7,3],[5,1,9])
-g.show()
+dim = [2,3,4,5,6,8,10]
+score = [0.6789975597559756,0.8226617661766177,0.880161596159616,0.8971683768376838,0.9073393139313931,0.9164444644464447,0.8828894089408941]
+plt.plot(dim, score)
 plt.show()
