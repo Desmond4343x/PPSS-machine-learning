@@ -24,9 +24,9 @@ import sklearn.metrics
 #extracting data from MNIST
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-train_mask = np.isin(Y_train, [3, 4, 5, 6])
+train_mask = np.isin(Y_train, [6, 7, 8, 9])
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-test_mask = np.isin(Y_test, [3, 4, 5, 6])
+test_mask = np.isin(Y_test, [6, 7, 8, 9])
 X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 X_train = X_train.astype('float32') / 255
@@ -37,7 +37,7 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 
 batch_size = 256
 epochs = 200
-bottle_dim = 6
+bottle_dim = 8
 # Neural net
 ########################################################################################################################
 #Input layer
@@ -106,7 +106,7 @@ clustering()
 
 # Plots the figueres
 def plot_numbers():
-	plt.figure(figsize=(40, 4))
+	plt.figure(figsize=(80, 4))
 	for i in range(10):
 		# display original images
 		ax = plt.subplot(3, 20, i + 1)
