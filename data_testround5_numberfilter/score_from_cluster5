@@ -1,17 +1,30 @@
-numbers 1-5
 
+numbers 0-3
 Bottleneck dimension:test-score=
+
+3:test-score= 0.6747204235674696
+4:test-score= 0.8046175114716576
+5:test-score=
+6:test-score=
+8:test-score=
+
+numbers 3-6
+Bottleneck dimension:test-score=
+
 3:test-score=
 4:test-score=
 5:test-score=
 6:test-score=
 8:test-score=
 
-numbers 1-4
+numbers 6-9
 Bottleneck dimension:test-score=
+
 3:test-score=
 4:test-score=
 5:test-score=
 6:test-score=
 8:test-score=
+
+difficult numbers: more ?
 

@@ -24,9 +24,9 @@ import sklearn.metrics
 #extracting data from MNIST
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-train_mask = np.isin(Y_train, [1, 2, 3, 4, 5])
+train_mask = np.isin(Y_train, [0, 1, 2, 3])
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-test_mask = np.isin(Y_test, [0, 1, 9])
+test_mask = np.isin(Y_test, [0, 1, 2, 3])
 X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 X_train = X_train.astype('float32') / 255
@@ -36,8 +36,8 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 # hyper parameters
 
 batch_size = 256
-epochs = 2
-bottle_dim = 4
+epochs = 200
+bottle_dim = 5
 # Neural net
 ########################################################################################################################
 #Input layer
@@ -96,9 +96,8 @@ loss_plot()
 #Clustering
 def clustering():
 	encoded_imgs = encoder.predict(X_test)
-	kmeans = KMeans(n_clusters=10, n_init=100)
+	kmeans = KMeans(n_clusters=4, n_init=100)
 	y_pred_kmeans = kmeans.fit_predict(encoded_imgs)
-	y_pred_kmeans[:10]
 	#Scoring
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
 	print("score is: ", score)
