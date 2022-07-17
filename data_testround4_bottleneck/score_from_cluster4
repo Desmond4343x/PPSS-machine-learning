@@ -8,6 +8,3 @@ Bottleneck dimension:test-score=
 6:test-score=0.9073393139313931
 8:test-score=0.9164444644464447
 10:test-score=0.8828894089408941
-
-train_mask = np.isin(Y_train, [0, 4])
-test_mask = np.isin(Y_test, [0, 4])
