@@ -24,9 +24,9 @@ import sklearn.metrics
 #extracting data from MNIST
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-train_mask = np.isin(Y_train, [6, 7, 8, 9])
+train_mask = np.isin(Y_train, [0, 1, 2, 5])
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-test_mask = np.isin(Y_test, [6, 7, 8, 9])
+test_mask = np.isin(Y_test, [0, 1, 2, 5])
 X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 X_train = X_train.astype('float32') / 255
@@ -37,7 +37,7 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 
 batch_size = 256
 epochs = 200
-bottle_dim = 8
+bottle_dim = 6
 # Neural net
 ########################################################################################################################
 #Input layer

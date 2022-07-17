@@ -26,5 +26,12 @@ Bottleneck dimension:test-score=
 6:test-score= 0.8864632098359057
 8:test-score= 0.8358608601744162
 
-difficult numbers: more ?
+numbers 0, 1, 2, 5(randomly chosen)
+Bottleneck dimension:test-score=
+
+3:test-score= 0.7341131986901852
+4:test-score= 0.8050171060000557
+5:test-score= 0.8130870128186781
+6:test-score= 0.8582126642648736
+8:test-score= 0.8418312733660088
 
