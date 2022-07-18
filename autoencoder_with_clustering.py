@@ -5,6 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from keras.datasets import mnist
 import numpy as np
+from sklearn import svm, datasets
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import ConfusionMatrixDisplay
 
 np.random.seed(10)
 
@@ -36,7 +39,7 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 # hyper parameters
 
 batch_size = 256
-epochs = 200
+epochs = 1
 bottle_dim = 6
 # Neural net
 ########################################################################################################################
@@ -103,6 +106,28 @@ def clustering():
 	print("score is: ", score)
 clustering()
 
+#Confusion Matrix
+def confusion_matrix():
+	classifier = svm.SVC(kernel="linear", C=0.01).fit(X_train, Y_train)
+	titles_options = [
+		("Confusion Matrix, without normalization", None),
+		("Normalized Confusion Matrix", "true"),
+	]
+	for title, normalize in titles_options:
+		disp = ConfusionMatrixDisplay.from_estimator(
+			classifier,
+			X_test,
+			Y_test,
+			cmap=plt.cm.Blues,
+			normalize=normalize,
+		)
+		disp.ax_.set_title(title)
+
+		print(title)
+		print(disp.confusion_matrix)
+
+	plt.show()
+confusion_matrix()
 
 # Plots the figueres
 def plot_numbers():
