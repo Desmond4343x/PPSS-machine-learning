@@ -32,6 +32,8 @@ encoded = Dense(units=bottle_dim, activation='linear')(encoded)
 decoded = Dense(units=2000, activation='relu')(encoded)
 decoded = Dense(units=500, activation='relu')(decoded)
 decoded = Dense(units=500, activation='relu')(decoded)
+
+
 #4
 encoded = Dense(units=794, activation='relu')(input_img)
 encoded = Dense(units=628, activation='relu')(encoded)
