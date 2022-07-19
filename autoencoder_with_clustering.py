@@ -18,11 +18,12 @@ from sklearn.metrics import confusion_matrix
 
 
 #extracting data from MNIST
+numbers_used = [6, 7, 8, 9]
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-train_mask = np.isin(Y_train, [0, 1, 2, 5])
+train_mask = np.isin(Y_train, numbers_used)
 # input numbers you want to use in second arg of np.isin [n,m,x....,h]
-test_mask = np.isin(Y_test, [0, 1, 2, 5])
+test_mask = np.isin(Y_test, numbers_used)
 X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 X_train = X_train.astype('float32') / 255
@@ -32,21 +33,21 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 # hyper parameters
 
 batch_size = 256
-epochs = 1
+epochs = 10
 bottle_dim = 6
 # Neural net
 ########################################################################################################################
 #Input layer
 input_img = Input(shape=(784,))
 # architecture
-encoded = Dense(units=500, activation='relu')(input_img)
-encoded = Dense(units=500, activation='relu')(encoded)
-encoded = Dense(units=2000, activation='relu')(encoded)
+encoded = Dense(units=400, activation='relu')(input_img)
+encoded = Dense(units=100, activation='relu')(encoded)
+encoded = Dense(units=29, activation='relu')(encoded)
 encoded = Dense(units=bottle_dim, activation='linear')(encoded)
 
-decoded = Dense(units=2000, activation='relu')(encoded)
-decoded = Dense(units=500, activation='relu')(decoded)
-decoded = Dense(units=500, activation='relu')(decoded)
+decoded = Dense(units=29, activation='relu')(encoded)
+decoded = Dense(units=100, activation='relu')(decoded)
+decoded = Dense(units=400, activation='relu')(decoded)
 # output layer
 decoded = Dense(units=784, activation='sigmoid')(decoded)
 ##################################################################################################################
@@ -85,18 +86,42 @@ loss_plot()
 
 #Clustering
 def clustering():
-	encoded_imgs_train = encoder.predict(X_test)
-	kmeans = KMeans(n_clusters=4, n_init=4000).fit(encoded_imgs_train)
-	y_pred_kmeans = kmeans.predict(encoded_imgs_train)
+	encoded_imgs_test = encoder.predict(X_test)
+	kmeans = KMeans(n_clusters=len(numbers_used), n_init=400).fit(encoded_imgs_test)
+	y_pred_kmeans = kmeans.predict(encoded_imgs_test)
 	#Scoring
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
 	print("score is: ", score)
+	# Confusion matrix
+	from sklearn.metrics import confusion_matrix
+
+	cm = confusion_matrix(y_true=Y_test, y_pred=y_pred_kmeans)
+	import seaborn as sns; sns.set()
+
+	ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+
+	from scipy.optimize import linear_sum_assignment as linear_assignment
+
+	def _make_cost_m(cm):
+		s = np.max(cm)
+		return (- cm + s)
+
+	indexes = linear_assignment(_make_cost_m(cm))
+	js = [e[1] for e in sorted(indexes, key=lambda x: x[0])]
+	cm2 = cm[:, js]
+	#sns.heatmap(cm2, annot=True, fmt="d", cmap="Blues")
+	acc = np.trace(cm2) / np.sum(cm2)
+	print("accuracy is: ", acc)
+
+
 
 clustering()
 
 #Confusion Matrix
 def confusion_matrix():
+
 	classifier = svm.SVC(kernel="linear", C=0.01).fit(X_train, Y_train)
+
 	titles_options = [
 		("Confusion Matrix, without normalization", None),
 		("Normalized Confusion Matrix", "true"),
@@ -115,7 +140,7 @@ def confusion_matrix():
 		print(disp.confusion_matrix)
 
 	plt.show()
-confusion_matrix()
+#confusion_matrix()
 
 # Plots the figueres
 def plot_numbers():
