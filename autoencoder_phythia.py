@@ -32,8 +32,9 @@ X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
 X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 print(Y_test)
 # Parameters for blurring
-sigma_x = 100
-sigma_y = 0
+print(X_test)
+sigma_1 = 1
+sigma_2 = 10
 X_train = gaussian_filter(X_train, sigma=[sigma_x, sigma_y], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 X_test = gaussian_filter(X_test, sigma=[sigma_x, sigma_y], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 
