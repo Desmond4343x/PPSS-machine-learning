@@ -31,7 +31,7 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 #print(Y_test)
 # Parameters for blurring
 #print(X_test)
-sigma_1 =10 #y_ish
+sigma_1 =500 #y_ish
 sigma_2 = 0 #x_ish
 X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
