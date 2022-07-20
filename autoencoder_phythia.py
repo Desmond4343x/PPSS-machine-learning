@@ -64,9 +64,9 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	encoder = Model(input_img, encoded)
 
-	autoencoder.summary()
+	#autoencoder.summary()
 
-	encoder.summary()
+	#encoder.summary()
 
 	autoencoder.compile(optimizer='adam', loss="mean_squared_logarithmic_error", metrics=['accuracy'])
 	history = autoencoder.fit(X_train, X_train,
