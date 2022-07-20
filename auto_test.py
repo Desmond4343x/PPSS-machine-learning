@@ -1,24 +1,25 @@
 import autoencoder_phythia
 
 
-sigma = 0.6
+sigma = 0
+# sigma2 test[0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 100]
+
 
 accu = []
 scorez = []
 
-res = autoencoder_phythia.autoencoder_pythia(sigma_1=0 ,sigma_2=sigma)
-sigma += 0.2
+res = autoencoder_phythia.autoencoder_pythia(sigma_1=sigma, sigma_2=sigma)
 scorez.append(res[0])
 accu.append(res[1])
 
-f = open("sigma2_score.txt", "a")
+f = open("sigmaboth_score.txt", "a")
 score_string = ", ".join(str(e) for e in scorez)
 f.write(score_string)
 f.write(", ")
 f.close()
 
 
-g = open("sigma2_acc.txt", "a")
+g = open("sigmaboth_acc.txt", "a")
 acc_string = ", ".join(str(e) for e in accu)
 g.write(acc_string)
 g.write(" ,")
