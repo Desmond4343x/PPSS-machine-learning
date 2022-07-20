@@ -5,8 +5,15 @@ from keras.models import Model
 from keras.layers import Dense, Input
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten
 from keras import backend as k
+import sklearn.metrics
+from scipy.ndimage import gaussian_filter
 
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
+(x_train, y_train) = (np.load('data/train_X.npy', mmap_mode='r'), np.load('data/train_Y.npy', mmap_mode='r'))
+(x_test, y_test) = (np.load('data/test_X.npy', mmap_mode='r'), np.load('data/test_Y.npy', mmap_mode='r'))
+print(y_test, x_test)
+sigma_1 = 6 #y_ish
+sigma_2 = 0.4 #x_ish
+
 
 img_rows, img_cols = 28, 28
 
@@ -36,7 +43,7 @@ layer5 = Flatten()(layer3)
 layer6 = Dense(250, activation='relu')(layer5)
 layer7 = Dense(70, activation="relu")(layer6)
 layer8 = Dense(4, activation="linear")(layer7)
-layer9 = Dense(10, activation='softmax')(layer8)
+layer9 = Dense(5, activation='softmax')(layer8)
 
 model = Model([inpx], layer9)
 model.compile(optimizer=keras.optimizers.Adadelta(),
