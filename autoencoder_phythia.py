@@ -21,17 +21,17 @@ X_train = np.load('data/train_X.npy', mmap_mode='r')
 Y_test = np.load('data/test_Y.npy', mmap_mode='r')
 Y_train = np.load('data/train_Y.npy', mmap_mode='r')
 numbers_used = [1, 2, 3, 4]
-print(Y_test)
+#print(Y_test)
 train_mask = np.isin(Y_train, numbers_used)
 test_mask = np.isin(Y_test, numbers_used)
 X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
 X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
-print(Y_test)
+#print(Y_test)
 # Parameters for blurring
-print(X_test)
-sigma_1 =0 #y_ish
+#print(X_test)
+sigma_1 =10 #y_ish
 sigma_2 = 0 #x_ish
 X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
@@ -42,7 +42,7 @@ X_test = X_test.astype('float32') / 255
 # hyper parameters
 
 batch_size = 256
-epochs = 200
+epochs = 10
 bottle_dim = 4
 # Neural net
 ########################################################################################################################
