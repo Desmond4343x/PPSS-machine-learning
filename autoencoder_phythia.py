@@ -32,16 +32,16 @@ X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
 X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 print(Y_test)
 # Parameters for blurring
-sigma_y = 2
-sigma_x = 0.2
+sigma_x = 100
+sigma_y = 0
 X_train = gaussian_filter(X_train, sigma=[sigma_x, sigma_y], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 X_test = gaussian_filter(X_test, sigma=[sigma_x, sigma_y], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 
 
 # hyper parameters
 
-batch_size = 32
-epochs = 10
+batch_size = 256
+epochs = 1
 bottle_dim = 4
 # Neural net
 ########################################################################################################################
@@ -95,7 +95,7 @@ loss_plot()
 #Clustering
 def clustering():
 	encoded_imgs_test = encoder.predict(X_test)
-	kmeans = KMeans(n_clusters=len(numbers_used), n_init=400).fit(encoded_imgs_test)
+	kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_test)
 	y_pred_kmeans = kmeans.predict(encoded_imgs_test)
 	#Scoring
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
@@ -107,7 +107,7 @@ def clustering():
 	import seaborn as sns; sns.set()
 
 	ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
-"""
+
 	from scipy.optimize import linear_sum_assignment as linear_assignment
 
 	def _make_cost_m(cm):
@@ -119,7 +119,7 @@ def clustering():
 	cm2 = cm[:, js]
 	#sns.heatmap(cm2, annot=True, fmt="d", cmap="Blues")
 	acc = np.trace(cm2) / np.sum(cm2)
-	print("accuracy is: ", acc)"""
+	print("accuracy is: ", acc)
 
 
 
