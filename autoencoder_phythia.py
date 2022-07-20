@@ -1,21 +1,18 @@
-import seaborn as sns
+
 
 import matplotlib.pyplot as plt
-from keras.datasets import mnist
 import numpy as np
-from sklearn import svm, datasets
-from sklearn.model_selection import train_test_split
+from sklearn import svm
 from sklearn.metrics import ConfusionMatrixDisplay
 
 np.random.seed(10)
 
 import numpy as np
-from keras.layers import Dense, Input, Dropout
+from keras.layers import Dense, Input
 from keras.models import Model
 from sklearn.cluster import KMeans
 import sklearn.metrics
-from sklearn.metrics import confusion_matrix
-
+from scipy.ndimage import gaussian_filter
 
 #extracting data from pythia files
 
@@ -23,42 +20,42 @@ X_test = np.load('data/test_X.npy', mmap_mode='r')
 X_train = np.load('data/train_X.npy', mmap_mode='r')
 Y_test = np.load('data/test_Y.npy', mmap_mode='r')
 Y_train = np.load('data/train_Y.npy', mmap_mode='r')
+numbers_used = [1, 2, 3, 4]
+print(Y_test)
+train_mask = np.isin(Y_train, numbers_used)
+test_mask = np.isin(Y_test, numbers_used)
+X_train, Y_train = X_train[train_mask], Y_train[train_mask]
+X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 X_train = X_train.astype('float32') / 255
 X_test = X_test.astype('float32') / 255
 X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
 X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
+print(Y_test)
+# Parameters for blurring
+sigma_y = 2
+sigma_x = 0.2
+X_train = gaussian_filter(X_train, sigma=[sigma_x, sigma_y], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
+X_test = gaussian_filter(X_test, sigma=[sigma_x, sigma_y], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
+
+
 # hyper parameters
 
-batch_size = 256
-epochs = 200
-bottle_dim = 6
+batch_size = 32
+epochs = 10
+bottle_dim = 4
 # Neural net
 ########################################################################################################################
 #Input layer
 input_img = Input(shape=(784,))
 # architecture
-encoded = Dense(units=794, activation='relu')(input_img)
-encoded = Dense(units=628, activation='relu')(encoded)
-encoded = Dense(units=461, activation='relu')(encoded)
-encoded = Dense(units=321, activation='relu')(encoded)
-encoded = Dense(units=180, activation='relu')(encoded)
-encoded = Dense(units=113, activation='relu')(encoded)
-encoded = Dense(units=45, activation='relu')(encoded)
-encoded = Dense(units=37, activation='relu')(encoded)
+encoded = Dense(units=400, activation='relu')(input_img)
+encoded = Dense(units=100, activation='relu')(encoded)
 encoded = Dense(units=29, activation='relu')(encoded)
-encoded = Dense(units=16, activation='relu')(encoded)
 encoded = Dense(units=bottle_dim, activation='linear')(encoded)
 
-decoded = Dense(units=16, activation='relu')(encoded)
-decoded = Dense(units=29, activation='relu')(decoded)
-decoded = Dense(units=37, activation='relu')(decoded)
-decoded = Dense(units=45, activation='relu')(decoded)
-decoded = Dense(units=113, activation='relu')(decoded)
-decoded = Dense(units=180, activation='relu')(decoded)
-decoded = Dense(units=321, activation='relu')(decoded)
-decoded = Dense(units=461, activation='relu')(decoded)
-decoded = Dense(units=628, activation='relu')(decoded)
-decoded = Dense(units=794, activation='relu')(decoded)
+decoded = Dense(units=29, activation='relu')(encoded)
+decoded = Dense(units=100, activation='relu')(decoded)
+decoded = Dense(units=400, activation='relu')(decoded)
 # output layer
 decoded = Dense(units=784, activation='sigmoid')(decoded)
 ##################################################################################################################
@@ -70,7 +67,7 @@ autoencoder.summary()
 
 encoder.summary()
 
-autoencoder.compile(optimizer='adam', loss='MSE', metrics=['accuracy'])
+autoencoder.compile(optimizer='adam', loss="mean_squared_logarithmic_error", metrics=['accuracy'])
 history = autoencoder.fit(X_train, X_train,
                           epochs=epochs,
                           batch_size=batch_size,
@@ -98,7 +95,7 @@ loss_plot()
 #Clustering
 def clustering():
 	encoded_imgs_test = encoder.predict(X_test)
-	kmeans = KMeans(n_clusters=4, n_init=400).fit(encoded_imgs_test)
+	kmeans = KMeans(n_clusters=len(numbers_used), n_init=400).fit(encoded_imgs_test)
 	y_pred_kmeans = kmeans.predict(encoded_imgs_test)
 	#Scoring
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
@@ -109,8 +106,8 @@ def clustering():
 	cm = confusion_matrix(y_true=Y_test, y_pred=y_pred_kmeans)
 	import seaborn as sns; sns.set()
 
-	ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
-
+	ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
+"""
 	from scipy.optimize import linear_sum_assignment as linear_assignment
 
 	def _make_cost_m(cm):
@@ -122,7 +119,7 @@ def clustering():
 	cm2 = cm[:, js]
 	#sns.heatmap(cm2, annot=True, fmt="d", cmap="Blues")
 	acc = np.trace(cm2) / np.sum(cm2)
-	print("accuracy is: ", acc)
+	print("accuracy is: ", acc)"""
 
 
 
@@ -159,7 +156,7 @@ def plot_numbers():
 	encoded_imgs = encoder.predict(X_test)
 	predicted = autoencoder.predict(X_test)
 	plt.figure(figsize=(80, 4))
-	for i in range(10):
+	for i in range(20):
 		# display original images
 		ax = plt.subplot(3, 20, i + 1)
 		plt.imshow(X_test[i].reshape(28, 28))
