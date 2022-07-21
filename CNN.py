@@ -31,6 +31,8 @@ x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
 x_train /= 255
 x_test /= 255
+print(x_test)
+print(x_test.shape)
 
 y_train = keras.utils.to_categorical(y_train)
 y_test = keras.utils.to_categorical(y_test)
@@ -50,7 +52,7 @@ model.compile(optimizer=keras.optimizers.Adadelta(),
               loss=keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=200, batch_size=256)
+model.fit(x_train, y_train, epochs=1, batch_size=256)
 
 score = model.evaluate(x_test, y_test, verbose=0)
 print('loss=', score[0])

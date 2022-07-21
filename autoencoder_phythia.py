@@ -26,23 +26,26 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	test_mask = np.isin(Y_test, numbers_used)
 	X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 	X_test, Y_test = X_test[test_mask], Y_test[test_mask]
+	print(X_test)
+	print(X_test.shape)
 	X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
 	X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
-	#print(Y_test)
+	print(Y_test)
 	# Parameters for blurring
 	#print(X_test)
-	#sigma_1 =500 #y_ish
-	#sigma_2 = 0 #x_ish
+	sigma_1 =0 #y_ish
+	sigma_2 =0 #x_ish
 	X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_train = X_train.astype('float32') / 255
 	X_test = X_test.astype('float32') / 255
-
+	print(X_test)
+	print(X_test.shape)
 
 	# hyper parameters
 
 	batch_size = 256
-	epochs = 10
+	epochs = 2
 	bottle_dim = 4
 	# Neural net
 	########################################################################################################################
@@ -180,5 +183,6 @@ def autoencoder_pythia(sigma_1, sigma_2):
 			ax.get_xaxis().set_visible(False)
 			ax.get_yaxis().set_visible(False)
 		plt.show()
-	#plot_numbers()
+	plot_numbers()
 	return res
+autoencoder_pythia(0, 5)
