@@ -110,7 +110,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		cm = confusion_matrix(y_true=Y_test, y_pred=y_pred_kmeans)
 		import seaborn as sns; sns.set()
 
-		#ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
+		ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
 
 		from scipy.optimize import linear_sum_assignment as linear_assignment
 
