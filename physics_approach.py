@@ -35,7 +35,7 @@ def x_values(training_data, label_data):
 		sum = 0
 		for y_index in range(training_data.shape[1]):
 			for x_index in range(training_data.shape[2]):
-				sum =+ training_data[picture_index][y_index][x_index]
+				sum += training_data[picture_index][y_index][x_index]
 		if sum <= 0:
 			picture_index += 2
 		else:
@@ -48,8 +48,8 @@ def x_values(training_data, label_data):
 						nonzero_x_array.append(x_index)
 
 
-			left_of_center = [0]
-			right_of_center = [27]
+			left_of_center = [-5]
+			right_of_center = [34]
 			for elem in nonzero_x_array:
 				if elem <= 13:
 					left_of_center.append(elem)
