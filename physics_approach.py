@@ -72,6 +72,15 @@ def x_values(training_data, label_data):
 
 	result_data = np.array(outer_array)
 	result_label = np.array(labels)
+	#loop required input that later
+	print(result_data[0:result_data.shape[0]][0])
+	plt.scatter(result_data[:][0], result_data[:][3])
+
+	plt.title('Min-Max Clusters')
+	plt.ylabel('x_max')
+	plt.xlabel('x_min')
+	plt.legend(['Min-Max Clusters'], loc='upper left')
+	plt.show(Block=False)
 
 	return [result_data, result_label]
 
