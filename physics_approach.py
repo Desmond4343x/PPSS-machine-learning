@@ -15,13 +15,13 @@ from keras.models import Model
 from sklearn.cluster import KMeans
 import sklearn.metrics
 from scipy.ndimage import gaussian_filter
+
 """Pseudocode. 
 def x_extremeties
 	returns file with dimensions (10000, 4, 1). [x_min, x_left_center, x_right_center, x_max] where 0 <= x_i <= 28
-
 def cluster
 	returns cluster score from KMeans and plots confusion matrix
-	
+
 def main
 	load data with eventual filter and call every function"""
 
@@ -30,9 +30,9 @@ def x_values(training_data, label_data):
 	outer_array = []
 	picture_index = 0
 	labels = []
-	xmin=[]
-	xmax=[]
-	while picture_index <= (training_data.shape[0]-1):
+	xmin = []
+	xmax = []
+	while picture_index <= (training_data.shape[0] - 1):
 		sum = 0
 		for y_index in range(training_data.shape[1]):
 			for x_index in range(training_data.shape[2]):
@@ -41,13 +41,12 @@ def x_values(training_data, label_data):
 			picture_index += 2
 		else:
 			nonzero_x_array = []
-			inner_array = [] #[x_min, x_center_left, x_center_right, x_max]
+			inner_array = []  # [x_min, x_center_left, x_center_right, x_max]
 			for y_index in range(training_data.shape[1]):
 				for x_index in range(training_data.shape[2]):
 					if training_data[picture_index][y_index][x_index] > 0:
-						#print(picture_index)
+						# print(picture_index)
 						nonzero_x_array.append(x_index)
-
 
 			left_of_center = [-5]
 			right_of_center = [34]
@@ -62,37 +61,24 @@ def x_values(training_data, label_data):
 			inner_array.append(min(right_of_center))
 			inner_array.append(max(nonzero_x_array))
 
-			xmin.append(max(nonzero_x_array))
+			xmin.append(min(nonzero_x_array))
 			xmax.append(max(nonzero_x_array))
-			#print(inner_array)
+			# print(inner_array)
 
 			outer_array.append(inner_array)
 			labels.append(label_data[picture_index])
 			picture_index += 2
 
-
-
-
-
 	result_data = np.array(outer_array)
 	result_label = np.array(labels)
-	#loop required input that later
-	print(result_data[0:result_data.shape[0]][0])
 
-	min_max_cluster_plot=plt.figure(1)
-	plt.scatter(result_data[:][0], result_data[:][3])
-	plt.title('Min-Max Clusters')
-	plt.ylabel('x_max')
-	plt.xlabel('x_min')
-	plt.legend(['Min-Max Clusters'], loc='upper left')
-	min_max_cluster_plot.show()
 
-	min_max=plt.figure(2)
-	plt.scatter(xmin,xmax)
+	min_max = plt.figure(2)
+	plt.scatter(xmin, xmax)
 	plt.title('Min-Max')
 	plt.ylabel('xmax')
 	plt.xlabel('xmin')
-	min_max.show()
+	plt.show(block=False)
 
 	return [result_data, result_label]
 
@@ -117,7 +103,6 @@ def cluster(numbers_used, data, labels):
 	plt.ylabel('True')
 	plt.show()
 
-
 	from scipy.optimize import linear_sum_assignment as linear_assignment
 
 	def _make_cost_m(cm):
@@ -133,19 +118,12 @@ def cluster(numbers_used, data, labels):
 	return [score, acc]
 
 
-
-
-
-
-
-
-
 def main():
 	# Load data
-	X_test = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\test_X.npy', mmap_mode='r')
-	X_train = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\train_X.npy', mmap_mode='r')
-	Y_test = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\test_Y.npy', mmap_mode='r')
-	Y_train = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\train_Y.npy', mmap_mode='r')
+	X_test = np.load('data/test_X.npy', mmap_mode='r')
+	X_train = np.load('data/train_X.npy', mmap_mode='r')
+	Y_test = np.load('data/test_Y.npy', mmap_mode='r')
+	Y_train = np.load('data/train_Y.npy', mmap_mode='r')
 	numbers_used = [2, 3]
 	# print(Y_test)
 	train_mask = np.isin(Y_train, numbers_used)
@@ -155,8 +133,6 @@ def main():
 	[clust_data, clust_labels] = x_values(X_train, Y_train)
 	plt.show()
 	cluster(numbers_used, clust_data, clust_labels)
-
-
 
 
 
