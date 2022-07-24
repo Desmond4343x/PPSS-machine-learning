@@ -72,8 +72,6 @@ def x_values(training_data, label_data):
 	result_data = np.array(outer_array)
 	result_label = np.array(labels)
 
-
-	min_max = plt.figure(2)
 	plt.scatter(xmin, xmax)
 	plt.title('Min-Max')
 	plt.ylabel('xmax')
@@ -120,16 +118,41 @@ def cluster(numbers_used, data, labels):
 
 def main():
 	# Load data
-	X_test = np.load('data/test_X.npy', mmap_mode='r')
-	X_train = np.load('data/train_X.npy', mmap_mode='r')
-	Y_test = np.load('data/test_Y.npy', mmap_mode='r')
-	Y_train = np.load('data/train_Y.npy', mmap_mode='r')
+
+	#choose which dataset to import
+
+	dataset = np.load('data/data_DD.npz', allow_pickle=True)
+	#dataset = np.load('data/data_ND.npz', allow_pickle=True)
+	#dataset = np.load('data/data_SD.npz', allow_pickle=True)
+
+	dataset_list = dataset.files
+	temp = []
+
+	for item in dataset_list:
+		temp.append(dataset[item])
+
+	X_train = temp[0]
+	Y_train = temp[1]
+	X_test = temp[2]
+	Y_test = temp[3]
+
+	# print(temp)
+
+	# older files
+	# X_test = np.load('data/test_X.npy', mmap_mode='r')
+	# X_train = np.load('data/train_X.npy', mmap_mode='r')
+	# Y_test = np.load('data/test_Y.npy', mmap_mode='r')
+	# Y_train = np.load('data/train_Y.npy', mmap_mode='r')
+
+
 	numbers_used = [2, 3]
 	# print(Y_test)
 	train_mask = np.isin(Y_train, numbers_used)
 	test_mask = np.isin(Y_test, numbers_used)
 	X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 	X_test, Y_test = X_test[test_mask], Y_test[test_mask]
+	X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
+	X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 	[clust_data, clust_labels] = x_values(X_train, Y_train)
 	plt.show()
 	cluster(numbers_used, clust_data, clust_labels)
