@@ -30,7 +30,8 @@ def x_values(training_data, label_data):
 	outer_array = []
 	picture_index = 0
 	labels = []
-
+	xmin=[]
+	xmax=[]
 	while picture_index <= (training_data.shape[0]-1):
 		sum = 0
 		for y_index in range(training_data.shape[1]):
@@ -60,6 +61,9 @@ def x_values(training_data, label_data):
 			inner_array.append(max(left_of_center))
 			inner_array.append(min(right_of_center))
 			inner_array.append(max(nonzero_x_array))
+
+			xmin.append(max(nonzero_x_array))
+			xmax.append(max(nonzero_x_array))
 			#print(inner_array)
 
 			outer_array.append(inner_array)
@@ -74,13 +78,21 @@ def x_values(training_data, label_data):
 	result_label = np.array(labels)
 	#loop required input that later
 	print(result_data[0:result_data.shape[0]][0])
-	plt.scatter(result_data[:][0], result_data[:][3])
 
+	min_max_cluster_plot=plt.figure(1)
+	plt.scatter(result_data[:][0], result_data[:][3])
 	plt.title('Min-Max Clusters')
 	plt.ylabel('x_max')
 	plt.xlabel('x_min')
 	plt.legend(['Min-Max Clusters'], loc='upper left')
-	plt.show(Block=False)
+	min_max_cluster_plot.show()
+
+	min_max=plt.figure(2)
+	plt.scatter(xmin,xmax)
+	plt.title('Min-Max')
+	plt.ylabel('xmax')
+	plt.xlabel('xmin')
+	min_max.show()
 
 	return [result_data, result_label]
 
@@ -95,10 +107,16 @@ def cluster(numbers_used, data, labels):
 	from sklearn.metrics import confusion_matrix
 
 	cm = confusion_matrix(y_true=labels, y_pred=y_pred_kmeans)
+
+	fig = plt.figure()
 	import seaborn as sns;
 	sns.set()
-
 	ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
+	plt.title('Confusion matrix')
+	plt.xlabel('Predicted')
+	plt.ylabel('True')
+	plt.show()
+
 
 	from scipy.optimize import linear_sum_assignment as linear_assignment
 
@@ -112,7 +130,6 @@ def cluster(numbers_used, data, labels):
 	# sns.heatmap(cm2, annot=True, fmt="d", cmap="Blues")
 	acc = np.trace(cm2) / np.sum(cm2)
 	print("accuracy is: ", acc)
-	plt.show()
 	return [score, acc]
 
 
@@ -125,10 +142,10 @@ def cluster(numbers_used, data, labels):
 
 def main():
 	# Load data
-	X_test = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/test_X.npy', mmap_mode='r')
-	X_train = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/train_X.npy', mmap_mode='r')
-	Y_test = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/test_Y.npy', mmap_mode='r')
-	Y_train = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/train_Y.npy', mmap_mode='r')
+	X_test = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\test_X.npy', mmap_mode='r')
+	X_train = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\train_X.npy', mmap_mode='r')
+	Y_test = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\test_Y.npy', mmap_mode='r')
+	Y_train = np.load('D:\\Poland\\PROJECT\\PPSS-machine-learning\\data\\train_Y.npy', mmap_mode='r')
 	numbers_used = [2, 3]
 	# print(Y_test)
 	train_mask = np.isin(Y_train, numbers_used)
@@ -136,6 +153,7 @@ def main():
 	X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 	X_test, Y_test = X_test[test_mask], Y_test[test_mask]
 	[clust_data, clust_labels] = x_values(X_train, Y_train)
+	plt.show()
 	cluster(numbers_used, clust_data, clust_labels)
 
 
