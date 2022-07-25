@@ -31,10 +31,10 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	Y_test_SD = np.load('current_phys_data/data_SD/test_Y.npy', mmap_mode='r')
 	Y_train_SD = np.load('current_phys_data/data_SD/train_Y.npy', mmap_mode='r')
 
-	X_test = np.concatenate([X_test_DD, X_test_ND, X_test_SD], axis=0)
-	X_train = np.concatenate([X_train_DD, X_train_ND, X_train_SD], axis=0)
-	Y_test = np.concatenate([Y_test_DD, Y_test_ND, Y_test_SD], axis=0)
-	Y_train = np.concatenate([Y_train_DD, Y_train_ND, Y_train_SD], axis=0)
+	x_test = np.concatenate([X_test_DD, X_test_ND, X_test_SD], axis=0)
+	x_train = np.concatenate([X_train_DD, X_train_ND, X_train_SD], axis=0)
+	y_test = np.concatenate([Y_test_DD, Y_test_ND, Y_test_SD], axis=0)
+	y_train = np.concatenate([Y_train_DD, Y_train_ND, Y_train_SD], axis=0)
 	numbers_used = [1, 2, 3, 4]
 	#print(Y_test)
 	train_mask = np.isin(Y_train, numbers_used)

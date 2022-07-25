@@ -8,11 +8,27 @@ from keras import backend as k
 import sklearn.metrics
 from scipy.ndimage import gaussian_filter
 
-(x_train, y_train) = (np.load('data/train_X.npy', mmap_mode='r'), np.load('data/train_Y.npy', mmap_mode='r'))
-(x_test, y_test) = (np.load('data/test_X.npy', mmap_mode='r'), np.load('data/test_Y.npy', mmap_mode='r'))
-print(y_test, x_test)
-sigma_1 = 6 #y_ish
-sigma_2 = 0.4 #x_ish
+# extracting data from pythia files
+
+X_test_DD = np.load('current_phys_data/data_DD/test_X.npy', mmap_mode='r')
+X_train_DD = np.load('current_phys_data/data_DD/train_X.npy', mmap_mode='r')
+Y_test_DD = np.load('current_phys_data/data_DD/test_Y.npy', mmap_mode='r')
+Y_train_DD = np.load('current_phys_data/data_DD/train_Y.npy', mmap_mode='r')
+
+X_test_ND = np.load('current_phys_data/data_ND/test_X.npy', mmap_mode='r')
+X_train_ND = np.load('current_phys_data/data_ND/train_X.npy', mmap_mode='r')
+Y_test_ND = np.load('current_phys_data/data_ND/test_Y.npy', mmap_mode='r')
+Y_train_ND = np.load('current_phys_data/data_ND/train_Y.npy', mmap_mode='r')
+
+X_test_SD = np.load('current_phys_data/data_SD/test_X.npy', mmap_mode='r')
+X_train_SD = np.load('current_phys_data/data_SD/train_X.npy', mmap_mode='r')
+Y_test_SD = np.load('current_phys_data/data_SD/test_Y.npy', mmap_mode='r')
+Y_train_SD = np.load('current_phys_data/data_SD/train_Y.npy', mmap_mode='r')
+
+x_test = np.concatenate([X_test_DD, X_test_ND, X_test_SD], axis=0)
+x_train = np.concatenate([X_train_DD, X_train_ND, X_train_SD], axis=0)
+y_test = np.concatenate([Y_test_DD, Y_test_ND, Y_test_SD], axis=0)
+y_train = np.concatenate([Y_train_DD, Y_train_ND, Y_train_SD], axis=0)
 
 
 img_rows, img_cols = 28, 28
