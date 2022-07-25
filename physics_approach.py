@@ -26,48 +26,54 @@ def main
 	load data with eventual filter and call every function"""
 
 
-def x_values(training_data, label_data):
+def x_values(data_arr, label_arr):
 	outer_array = []
-	picture_index = 0
 	labels = []
 	xmin = []
 	xmax = []
-	while picture_index <= (training_data.shape[0] - 1):
-		sum = 0
-		for y_index in range(training_data.shape[1]):
-			for x_index in range(training_data.shape[2]):
-				sum += training_data[picture_index][y_index][x_index]
-		if sum <= 0:
-			picture_index += 2
-		else:
-			nonzero_x_array = []
-			inner_array = []  # [x_min, x_center_left, x_center_right, x_max]
+	for index in range(len(data_arr)):
+		picture_index = 0
+		n_nonzero_pixels = 0
+		training_data = data_arr[index]
+		label_data = label_arr[index]
+		while picture_index <= (training_data.shape[0] - 1):
+			sum = 0
 			for y_index in range(training_data.shape[1]):
 				for x_index in range(training_data.shape[2]):
-					if training_data[picture_index][y_index][x_index] > 0:
-						# print(picture_index)
-						nonzero_x_array.append(x_index)
+					sum += training_data[picture_index][y_index][x_index]
+			if sum <= 0:
+				picture_index += 2
+			else:
+				nonzero_x_array = []
+				inner_array = []  # [x_min, x_center_left, x_center_right, x_max, n_nonzero pixels]
+				for y_index in range(training_data.shape[1]):
+					for x_index in range(training_data.shape[2]):
+						if training_data[picture_index][y_index][x_index] > 0:
+							#print(picture_index)
+							nonzero_x_array.append(x_index)
+							n_nonzero_pixels += 1
 
-			left_of_center = [-5]
-			right_of_center = [34]
-			for elem in nonzero_x_array:
-				if elem <= 13:
-					left_of_center.append(elem)
-				else:
-					right_of_center.append(elem)
+				left_of_center = [-5]
+				right_of_center = [34]
+				for elem in nonzero_x_array:
+					if elem <= 13:
+						left_of_center.append(elem)
+					else:
+						right_of_center.append(elem)
 
-			inner_array.append(min(nonzero_x_array))
-			inner_array.append(max(left_of_center))
-			inner_array.append(min(right_of_center))
-			inner_array.append(max(nonzero_x_array))
+				inner_array.append(min(nonzero_x_array))
+				inner_array.append(max(left_of_center))
+				inner_array.append(min(right_of_center))
+				inner_array.append(max(nonzero_x_array))
+				inner_array.append(n_nonzero_pixels)
 
-			xmin.append(min(nonzero_x_array))
-			xmax.append(max(nonzero_x_array))
-			# print(inner_array)
+				xmin.append(min(nonzero_x_array))
+				xmax.append(max(nonzero_x_array))
+				# print(inner_array)
 
-			outer_array.append(inner_array)
-			labels.append(label_data[picture_index])
-			picture_index += 2
+				outer_array.append(inner_array)
+				labels.append(label_data[picture_index])
+				picture_index += 2
 
 	result_data = np.array(outer_array)
 	result_label = np.array(labels)
@@ -80,17 +86,20 @@ def x_values(training_data, label_data):
 
 	return [result_data, result_label]
 
+#def file_merge(training_files, testing_files):
 
-def cluster(numbers_used, data, labels):
-	kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(data)
-	y_pred_kmeans = kmeans.predict(data)
+
+
+def cluster(classes_used, train_data, test_data, test_labels):
+	kmeans = KMeans(n_clusters=classes_used, n_init=40).fit(train_data)
+	y_pred_kmeans = kmeans.predict(test_data)
 	# Scoring
-	score = sklearn.metrics.rand_score(labels, y_pred_kmeans)
+	score = sklearn.metrics.rand_score(test_labels, y_pred_kmeans)
 	print("score is: ", score)
 	# Confusion matrix
 	from sklearn.metrics import confusion_matrix
 
-	cm = confusion_matrix(y_true=labels, y_pred=y_pred_kmeans)
+	cm = confusion_matrix(y_true=test_labels, y_pred=y_pred_kmeans)
 
 	fig = plt.figure()
 	import seaborn as sns;
@@ -118,44 +127,35 @@ def cluster(numbers_used, data, labels):
 
 def main():
 	# Load data
+	X_test_DD = np.load('current_phys_data/data_DD/test_X.npy', mmap_mode='r')
+	X_train_DD = np.load('current_phys_data/data_DD/train_X.npy', mmap_mode='r')
+	Y_test_DD = np.load('current_phys_data/data_DD/test_Y.npy', mmap_mode='r')
+	Y_train_DD = np.load('current_phys_data/data_DD/train_Y.npy', mmap_mode='r')
 
-	#choose which dataset to import
+	X_test_SD = np.load('current_phys_data/data_SD/test_X.npy', mmap_mode='r')
+	X_train_SD = np.load('current_phys_data/data_SD/train_X.npy', mmap_mode='r')
+	Y_test_SD = np.load('current_phys_data/data_SD/test_Y.npy', mmap_mode='r')
+	Y_train_SD = np.load('current_phys_data/data_SD/train_Y.npy', mmap_mode='r')
 
-	dataset = np.load('data/data_DD.npz', allow_pickle=True)
-	#dataset = np.load('data/data_ND.npz', allow_pickle=True)
-	#dataset = np.load('data/data_SD.npz', allow_pickle=True)
-
-	dataset_list = dataset.files
-	temp = []
-
-	for item in dataset_list:
-		temp.append(dataset[item])
-
-	X_train = temp[0]
-	Y_train = temp[1]
-	X_test = temp[2]
-	Y_test = temp[3]
-
-	# print(temp)
-
-	# older files
-	# X_test = np.load('data/test_X.npy', mmap_mode='r')
-	# X_train = np.load('data/train_X.npy', mmap_mode='r')
-	# Y_test = np.load('data/test_Y.npy', mmap_mode='r')
-	# Y_train = np.load('data/train_Y.npy', mmap_mode='r')
+	X_test_ND = np.load('current_phys_data/data_ND/test_X.npy', mmap_mode='r')
+	X_train_ND = np.load('current_phys_data/data_ND/train_X.npy', mmap_mode='r')
+	Y_test_ND = np.load('current_phys_data/data_ND/test_Y.npy', mmap_mode='r')
+	Y_train_ND = np.load('current_phys_data/data_ND/train_Y.npy', mmap_mode='r')
 
 
-	numbers_used = [2, 3]
-	# print(Y_test)
-	train_mask = np.isin(Y_train, numbers_used)
-	test_mask = np.isin(Y_test, numbers_used)
-	X_train, Y_train = X_train[train_mask], Y_train[train_mask]
-	X_test, Y_test = X_test[test_mask], Y_test[test_mask]
-	X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
-	X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
-	[clust_data, clust_labels] = x_values(X_train, Y_train)
-	plt.show()
-	cluster(numbers_used, clust_data, clust_labels)
+
+	train_data_arr = [X_train_DD, X_train_SD, X_train_ND]
+	test_data_arr = [X_test_DD, X_test_SD, X_test_ND]
+	train_labels_arr = [Y_train_DD, Y_train_SD, Y_train_ND]
+	test_labels_arr = [Y_test_DD, Y_test_SD, Y_test_ND]
+
+
+
+	[clust_train_data, clust_train_labels] = x_values(train_data_arr, train_labels_arr)
+	plt.show(block=False)
+	[clust_test_data, clust_test_labels] = x_values(test_data_arr, test_labels_arr)
+	classes_used = 3
+	cluster(classes_used, clust_train_data, clust_test_data, clust_test_labels)
 
 
 
