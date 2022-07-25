@@ -145,10 +145,10 @@ def main():
 
 
 
-	train_data_arr = [X_train_DD, X_train_SD, X_train_ND]
-	test_data_arr = [X_test_DD, X_test_SD, X_test_ND]
-	train_labels_arr = [Y_train_DD, Y_train_SD, Y_train_ND]
-	test_labels_arr = [Y_test_DD, Y_test_SD, Y_test_ND]
+	train_data_arr = [X_train_SD]
+	test_data_arr = [X_test_SD]
+	train_labels_arr = [Y_train_SD]
+	test_labels_arr = [Y_test_SD]
 	print(test_labels_arr, "test label arr")
 
 
@@ -158,7 +158,7 @@ def main():
 	print(clust_train_data.shape, "clustdata shape")
 	plt.show(block=False)
 	[clust_test_data, clust_test_labels] = x_values(test_data_arr, test_labels_arr)
-	classes_used = 4
+	classes_used = 2
 	cluster(classes_used, clust_train_data, clust_test_data, clust_test_labels)
 
 
