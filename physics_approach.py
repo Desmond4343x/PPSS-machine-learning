@@ -33,10 +33,11 @@ def x_values(data_arr, label_arr):
 	xmax = []
 	for index in range(len(data_arr)):
 		picture_index = 0
-		n_nonzero_pixels = 0
+
 		training_data = data_arr[index]
 		label_data = label_arr[index]
 		while picture_index <= (training_data.shape[0] - 1):
+			n_nonzero_pixels = 0
 			sum = 0
 			for y_index in range(training_data.shape[1]):
 				for x_index in range(training_data.shape[2]):
@@ -148,13 +149,16 @@ def main():
 	test_data_arr = [X_test_DD, X_test_SD, X_test_ND]
 	train_labels_arr = [Y_train_DD, Y_train_SD, Y_train_ND]
 	test_labels_arr = [Y_test_DD, Y_test_SD, Y_test_ND]
-
+	print(test_labels_arr, "test label arr")
 
 
 	[clust_train_data, clust_train_labels] = x_values(train_data_arr, train_labels_arr)
+	print(clust_train_labels.shape, "train labels shape")
+	print(clust_train_data, "clust train data")
+	print(clust_train_data.shape, "clustdata shape")
 	plt.show(block=False)
 	[clust_test_data, clust_test_labels] = x_values(test_data_arr, test_labels_arr)
-	classes_used = 3
+	classes_used = 4
 	cluster(classes_used, clust_train_data, clust_test_data, clust_test_labels)
 
 
