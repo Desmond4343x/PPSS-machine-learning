@@ -16,10 +16,25 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	#extracting data from pythia files
 
-	X_test = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/test_X.npy', mmap_mode='r')
-	X_train = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/train_X.npy', mmap_mode='r')
-	Y_test = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/test_Y.npy', mmap_mode='r')
-	Y_train = np.load('/home/pontus/Desktop/DNN PPSS/PPSS-machine-learning/data/train_Y.npy', mmap_mode='r')
+	X_test_DD = np.load('current_phys_data/data_DD/test_X.npy', mmap_mode='r')
+	X_train_DD = np.load('current_phys_data/data_DD/train_X.npy', mmap_mode='r')
+	Y_test_DD = np.load('current_phys_data/data_DD/test_Y.npy', mmap_mode='r')
+	Y_train_DD = np.load('current_phys_data/data_DD/train_Y.npy', mmap_mode='r')
+
+	X_test_ND = np.load('current_phys_data/data_ND/test_X.npy', mmap_mode='r')
+	X_train_ND = np.load('current_phys_data/data_ND/train_X.npy', mmap_mode='r')
+	Y_test_ND = np.load('current_phys_data/data_ND/test_Y.npy', mmap_mode='r')
+	Y_train_ND = np.load('current_phys_data/data_ND/train_Y.npy', mmap_mode='r')
+
+	X_test_SD = np.load('current_phys_data/data_SD/test_X.npy', mmap_mode='r')
+	X_train_SD = np.load('current_phys_data/data_SD/train_X.npy', mmap_mode='r')
+	Y_test_SD = np.load('current_phys_data/data_SD/test_Y.npy', mmap_mode='r')
+	Y_train_SD = np.load('current_phys_data/data_SD/train_Y.npy', mmap_mode='r')
+
+	X_test = np.concatenate([X_test_DD, X_test_ND, X_test_SD], axis=0)
+	X_train = np.concatenate([X_train_DD, X_train_ND, X_train_SD], axis=0)
+	Y_test = np.concatenate([Y_test_DD, Y_test_ND, Y_test_SD], axis=0)
+	Y_train = np.concatenate([Y_train_DD, Y_train_ND, Y_train_SD], axis=0)
 	numbers_used = [1, 2, 3, 4]
 	#print(Y_test)
 	train_mask = np.isin(Y_train, numbers_used)
@@ -33,7 +48,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	print(Y_test)
 	# Parameters for blurring
 	#print(X_test)
-	sigma_1 =0 #y_ish
+	sigma_1 =2 #y_ish
 	sigma_2 =0 #x_ish
 	X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
@@ -67,9 +82,9 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	encoder = Model(input_img, encoded)
 
-	#autoencoder.summary()
+	autoencoder.summary()
 
-	#encoder.summary()
+	encoder.summary()
 
 	autoencoder.compile(optimizer='adam', loss="mean_squared_logarithmic_error", metrics=['accuracy'])
 	history = autoencoder.fit(X_train, X_train,

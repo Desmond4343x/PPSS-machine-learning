@@ -15,8 +15,8 @@ X_train_SD = np.load('current_phys_data/data_SD/train_X.npy', mmap_mode='r')
 Y_test_SD = np.load('current_phys_data/data_SD/test_Y.npy', mmap_mode='r')
 Y_train_SD = np.load('current_phys_data/data_SD/train_Y.npy', mmap_mode='r')
 
-print(X_train_SD.shape)
-elem = [X_test_DD, X_test_SD]
-print(X_train_SD)
-print(np.array(elem).shape)
-
+images = np.concatenate([X_test_SD, X_test_ND, X_test_DD], axis=0)
+print(X_test_SD.shape, "sd")
+print(X_test_DD.shape, "dd")
+print(X_test_ND.shape, "nd")
+print(images.shape)
