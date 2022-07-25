@@ -14,6 +14,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	import sklearn.metrics
 	from scipy.ndimage import gaussian_filter
 
+
 	#extracting data from pythia files
 
 	X_test_DD = np.load('current_phys_data/data_DD/test_X.npy', mmap_mode='r')
