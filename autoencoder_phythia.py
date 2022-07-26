@@ -139,16 +139,44 @@ def autoencoder_pythia(sigma_1, sigma_2):
 			x_42 = []
 			x_43 = []
 			x_44 = []
+			x_11_count = 0
+			x_12_count = 0
+			x_13_count = 0
+			x_14_count = 0
+			x_21_count = 0
+			x_22_count = 0
+			x_23_count = 0
+			x_24_count = 0
+			x_31_count = 0
+			x_32_count = 0
+			x_33_count = 0
+			x_34_count = 0
+			x_41_count = 0
+			x_42_count = 0
+			x_43_count = 0
+			x_44_count = 0
+
 
 			for true_index in range(len(Y_test)):
 				for pred_index in range(len(y_pred_kmeans)):
 
 					if Y_test[true_index] == 1:
 
-						if y_pred_kmeans[pred_index] == 1:
-							x_11.append(X_test[true_index])
+						if count <= 2:
+							if y_pred_kmeans[pred_index] == 1:
+								x_11.append(X_test[true_index])
+						else:
+							from numpy import asarray
+							from numpy import save
+							# define data
+							x_11 = asarray(x_11)
+							print(x_11.shape)
+							print(x_11[0])
+							# save to npy file
+							save('x_11.npy', x_11)
+							return"""
 
-						if y_pred_kmeans[pred_index] == 2:
+						"""if y_pred_kmeans[pred_index] == 2:
 							x_12.append(X_test[true_index])
 
 						if y_pred_kmeans[pred_index] == 3:
@@ -198,10 +226,10 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 						if y_pred_kmeans[pred_index] == 4:
 							x_44.append(X_test[true_index])
-			return [x_11, x_12, x_13, x_14, x_21, x_22, x_23, x_24, x_31, x_32, x_33, x_34, x_41, x_42, x_43, x_44]
 
 
-		[x_11, x_12, x_13, x_14, x_21, x_22, x_23, x_24, x_31, x_32, x_33, x_34, x_41, x_42, x_43, x_44] = extract_data()
+
+			extract_data()
 
 
 
