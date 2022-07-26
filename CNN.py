@@ -69,7 +69,7 @@ model.compile(optimizer=keras.optimizers.Adadelta(),
               metrics=['accuracy'])
 
 
-model.fit(x_train, y_train, epochs=1, batch_size=256)
+model.fit(x_train, y_train, epochs=100, batch_size=256)
 
 score = model.evaluate(x_test, y_test, verbose=0)
 print('loss=', score[0])

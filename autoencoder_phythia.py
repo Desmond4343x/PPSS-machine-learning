@@ -42,26 +42,26 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	test_mask = np.isin(Y_test, numbers_used)
 	X_train, Y_train = X_train[train_mask], Y_train[train_mask]
 	X_test, Y_test = X_test[test_mask], Y_test[test_mask]
-	print(X_test)
-	print(X_test.shape)
+	#print(X_test)
+	#print(X_test.shape)
 	X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
 	X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
-	print(Y_test)
+	#print(Y_test)
 	# Parameters for blurring
 	#print(X_test)
-	sigma_1 =0 #y_ish
+	sigma_1 =2 #y_ish
 	sigma_2 =0 #x_ish
 	X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_train = X_train.astype('float32') / 255
 	X_test = X_test.astype('float32') / 255
-	print(X_test)
-	print(X_test.shape)
+	#print(X_test)
+	#print(X_test.shape)
 
 	# hyper parameters
 
 	batch_size = 256
-	epochs = 100
+	epochs = 1
 	bottle_dim = 4
 	# Neural net
 	########################################################################################################################
@@ -114,11 +114,27 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	#Clustering
 	def clustering():
+		encoded_imgs_train = encoder.predict(X_train)
+		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_train)
 		encoded_imgs_test = encoder.predict(X_test)
-		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_test)
 		y_pred_kmeans = kmeans.predict(encoded_imgs_test)
+		y_pred_kmeans = y_pred_kmeans + 1
+
 		#Scoring
 		score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
+		def extract_data():
+			x_11 = []
+			for true_index in range(len(Y_test)):
+				for pred_index in range(len(y_pred_kmeans)):
+
+					if Y_test[true_index] == 1:
+						if y_pred_kmeans[pred_index] == 1:
+							x_11.append(X_test[true_index])
+							print(x_11)
+							return
+			print(x_11)
+		extract_data()
+
 		print("score is: ", score)
 		# Confusion matrix
 		from sklearn.metrics import confusion_matrix
@@ -142,34 +158,8 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		print("accuracy is: ", acc)
 		return [score, acc]
 
-
-
 	res = clustering()
 
-	#Confusion Matrix
-	def confusion_matrix():
-
-		classifier = svm.SVC(kernel="linear", C=0.01).fit(X_train, Y_train)
-
-		titles_options = [
-			("Confusion Matrix, without normalization", None),
-			("Normalized Confusion Matrix", "true"),
-		]
-		for title, normalize in titles_options:
-			disp = ConfusionMatrixDisplay.from_estimator(
-				classifier,
-				X_test,
-				Y_test,
-				cmap=plt.cm.Blues,
-				normalize=normalize,
-			)
-			disp.ax_.set_title(title)
-
-			print(title)
-			print(disp.confusion_matrix)
-
-		plt.show()
-	#confusion_matrix()
 
 	# Plots the figueres
 	def plot_numbers():
@@ -201,4 +191,4 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		plt.show()
 	plot_numbers()
 	return res
-autoencoder_pythia(0, 5)
+autoencoder_pythia(0, 0)

@@ -43,7 +43,7 @@ def x_values(data_arr, label_arr):
 				for x_index in range(training_data.shape[2]):
 					sum += training_data[picture_index][y_index][x_index]
 			if sum <= 0:
-				picture_index += 2
+				picture_index += 1
 			else:
 				nonzero_x_array = []
 				inner_array = []  # [x_min, x_center_left, x_center_right, x_max, n_nonzero pixels]
@@ -74,7 +74,7 @@ def x_values(data_arr, label_arr):
 
 				outer_array.append(inner_array)
 				labels.append(label_data[picture_index])
-				picture_index += 2
+				picture_index += 1
 
 	result_data = np.array(outer_array)
 	result_label = np.array(labels)
