@@ -49,7 +49,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	#print(Y_test)
 	# Parameters for blurring
 	#print(X_test)
-	sigma_1 =2 #y_ish
+	sigma_1 =0 #y_ish
 	sigma_2 =0 #x_ish
 	X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
@@ -122,101 +122,9 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 		#Scoring
 		score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
-		def extract_data():
-			x_11 = []
-			x_12 = []
-			x_13 = []
-			x_14 = []
-			x_21 = []
-			x_22 = []
-			x_23 = []
-			x_24 = []
-			x_31 = []
-			x_32 = []
-			x_33 = []
-			x_34 = []
-			x_41 = []
-			x_42 = []
-			x_43 = []
-			x_44 = []
 
 
 
-			for true_index in range(len(Y_test)):
-				# TODO single loop check indcies
-				pred_index = true_index
-
-				if Y_test[true_index] == 1:
-					# TODO elif
-					if y_pred_kmeans[pred_index] == 1:
-						x_11.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 2:
-						x_12.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 3:
-						x_13.append(X_test[true_index])
-
-					else:
-						x_14.append(X_test[true_index])
-
-				elif Y_test[true_index] == 2:
-
-					if y_pred_kmeans[pred_index] == 1:
-						x_21.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 2:
-						x_22.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 3:
-						x_23.append(X_test[true_index])
-
-					else:
-						x_24.append(X_test[true_index])
-
-				elif Y_test[true_index] == 3:
-
-					if y_pred_kmeans[pred_index] == 1:
-						x_31.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 2:
-						x_32.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 3:
-						x_33.append(X_test[true_index])
-
-					else:
-						x_34.append(X_test[true_index])
-
-				else:
-
-					if y_pred_kmeans[pred_index] == 1:
-						x_41.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 2:
-						x_42.append(X_test[true_index])
-
-					elif y_pred_kmeans[pred_index] == 3:
-						x_43.append(X_test[true_index])
-
-					else:
-						x_44.append(X_test[true_index])
-
-			#Plot the pictures
-			plt.figure(figsize=(80, 4))
-
-			for i in range(len(x_11)):
-				if i < 10:
-					# display original images
-					ax = plt.subplot(3, 20, i + 1)
-					plt.imshow(x_11[i].reshape(28, 28))
-					plt.gray()
-					ax.get_xaxis().set_visible(False)
-					ax.get_yaxis().set_visible(False)
-			plt.title("True label = 1, Predicted label = 1")
-			plt.show(block=False)
-
-		extract_data()
 
 
 
@@ -243,10 +151,316 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		#sns.heatmap(cm2, annot=True, fmt="d", cmap="Blues")
 		acc = np.trace(cm2) / np.sum(cm2)
 		print("accuracy is: ", acc)
-		return [score, acc]
+		return y_pred_kmeans
 
-	res = clustering()
+	pred_kmeans = clustering()
 
+	def extract_data(Y_test, y_pred_kmeans):
+		x_11 = []
+		x_12 = []
+		x_13 = []
+		x_14 = []
+		x_21 = []
+		x_22 = []
+		x_23 = []
+		x_24 = []
+		x_31 = []
+		x_32 = []
+		x_33 = []
+		x_34 = []
+		x_41 = []
+		x_42 = []
+		x_43 = []
+		x_44 = []
+
+		for true_index in range(len(Y_test)):
+
+			pred_index = true_index
+
+			if Y_test[true_index] == 1:
+
+				if y_pred_kmeans[pred_index] == 1:
+					x_11.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 2:
+					x_12.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 3:
+					x_13.append(X_test[true_index])
+
+				else:
+					x_14.append(X_test[true_index])
+
+			elif Y_test[true_index] == 2:
+
+				if y_pred_kmeans[pred_index] == 1:
+					x_21.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 2:
+					x_22.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 3:
+					x_23.append(X_test[true_index])
+
+				else:
+					x_24.append(X_test[true_index])
+
+			elif Y_test[true_index] == 3:
+
+				if y_pred_kmeans[pred_index] == 1:
+					x_31.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 2:
+					x_32.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 3:
+					x_33.append(X_test[true_index])
+
+				else:
+					x_34.append(X_test[true_index])
+
+			else:
+
+				if y_pred_kmeans[pred_index] == 1:
+					x_41.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 2:
+					x_42.append(X_test[true_index])
+
+				elif y_pred_kmeans[pred_index] == 3:
+					x_43.append(X_test[true_index])
+
+				else:
+					x_44.append(X_test[true_index])
+
+		# Plot the pictures
+
+		#x11
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_11)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_11[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 1, Predicted label = 1")
+		plt.show(block=False)
+
+		#x12
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_12)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_12[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 1, Predicted label = 2")
+		plt.show(block=False)
+
+		#x13
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_13)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_13[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 1, Predicted label = 3")
+		plt.show(block=False)
+
+		# x14
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_14)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_14[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 1, Predicted label = 4")
+		plt.show(block=False)
+
+		# x21
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_21)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_21[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 2, Predicted label = 1")
+		plt.show(block=False)
+
+		# x22
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_22)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_22[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 2, Predicted label = 2")
+		plt.show(block=False)
+
+		# x23
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_23)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_23[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 2, Predicted label = 3")
+		plt.show(block=False)
+
+		# x24
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_24)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_24[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 2, Predicted label = 4")
+		plt.show(block=False)
+
+		# x31
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_31)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_31[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 3, Predicted label = 1")
+		plt.show(block=False)
+
+		# x32
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_32)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_32[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 3, Predicted label = 2")
+		plt.show(block=False)
+
+		# x33
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_33)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_33[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 3, Predicted label = 3")
+		plt.show(block=False)
+
+		# x34
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_34)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_34[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 3, Predicted label = 4")
+		plt.show(block=False)
+
+		# x41
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_41)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_41[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 4, Predicted label = 1")
+		plt.show(block=False)
+
+		# x42
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_42)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_42[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 4, Predicted label = 2")
+		plt.show(block=False)
+
+		# x43
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_43)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_43[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 4, Predicted label = 3")
+		plt.show(block=False)
+
+		# x44
+		plt.figure(figsize=(80, 4))
+
+		for i in range(len(x_44)):
+			if i < 10:
+				# display original images
+				ax = plt.subplot(3, 20, i + 1)
+				plt.imshow(x_44[i].reshape(28, 28))
+				plt.gray()
+				ax.get_xaxis().set_visible(False)
+				ax.get_yaxis().set_visible(False)
+		plt.title("True label = 4, Predicted label = 4")
+		plt.show(block=False)
+
+
+	extract_data(Y_test, pred_kmeans)
 
 	# Plots the figueres
 	def plot_numbers():
@@ -276,6 +490,8 @@ def autoencoder_pythia(sigma_1, sigma_2):
 			ax.get_xaxis().set_visible(False)
 			ax.get_yaxis().set_visible(False)
 		plt.show()
-	plot_numbers()
-	return res
+
+	plt.show()
+	#plot_numbers()
+
 autoencoder_pythia(0, 0)
