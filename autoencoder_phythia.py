@@ -49,7 +49,8 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	#print(Y_test)
 	# Parameters for blurring
 	#print(X_test)
-	sigma_1 =0 #y_ish
+	X_plot = X_test
+	sigma_1 =2 #y_ish
 	sigma_2 =0 #x_ish
 	X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
@@ -61,7 +62,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	# hyper parameters
 
 	batch_size = 256
-	epochs = 1
+	epochs = 100
 	bottle_dim = 4
 	# Neural net
 	########################################################################################################################
@@ -87,7 +88,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	encoder.summary()
 
-	autoencoder.compile(optimizer='adam', loss="mean_squared_logarithmic_error", metrics=['accuracy'])
+	autoencoder.compile(optimizer='SGD', loss="mean_squared_logarithmic_error", metrics=['accuracy'])
 	history = autoencoder.fit(X_train, X_train,
 	                          epochs=epochs,
 	                          batch_size=batch_size,
@@ -114,9 +115,8 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	#Clustering
 	def clustering():
-		encoded_imgs_train = encoder.predict(X_train)
-		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_train)
 		encoded_imgs_test = encoder.predict(X_test)
+		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_test)
 		y_pred_kmeans = kmeans.predict(encoded_imgs_test)
 		y_pred_kmeans = y_pred_kmeans + 1
 
@@ -133,10 +133,13 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		from sklearn.metrics import confusion_matrix
 
 		cm = confusion_matrix(y_true=Y_test, y_pred=y_pred_kmeans)
-		import seaborn as sns; sns.set()
-
-		plt.figure()
+		fig = plt.figure()
+		import seaborn as sns;
+		sns.set()
 		ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
+		plt.title('Confusion matrix')
+		plt.xlabel('Predicted')
+		plt.ylabel('True')
 		plt.show(block=False)
 
 		from scipy.optimize import linear_sum_assignment as linear_assignment
@@ -156,6 +159,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	pred_kmeans = clustering()
 
 	def extract_data(Y_test, y_pred_kmeans):
+		X_test = X_plot
 		x_11 = []
 		x_12 = []
 		x_13 = []
@@ -458,8 +462,6 @@ def autoencoder_pythia(sigma_1, sigma_2):
 				ax.get_yaxis().set_visible(False)
 		plt.title("True label = 4, Predicted label = 4")
 		plt.show(block=False)
-
-
 	extract_data(Y_test, pred_kmeans)
 
 	# Plots the figueres

@@ -106,7 +106,7 @@ def cluster(classes_used, train_data, test_data, test_labels):
 	plt.title('Confusion matrix')
 	plt.xlabel('Predicted')
 	plt.ylabel('True')
-	plt.show()
+	plt.show(block=False)
 
 	from scipy.optimize import linear_sum_assignment as linear_assignment
 
