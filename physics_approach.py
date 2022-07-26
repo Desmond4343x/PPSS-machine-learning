@@ -94,6 +94,7 @@ def x_values(data_arr, label_arr):
 def cluster(classes_used, train_data, test_data, test_labels):
 	kmeans = KMeans(n_clusters=classes_used, n_init=40).fit(train_data)
 	y_pred_kmeans = kmeans.predict(test_data)
+	y_pred_kmeans = y_pred_kmeans + 1
 	# Scoring
 	score = sklearn.metrics.rand_score(test_labels, y_pred_kmeans)
 	print("score is: ", score)

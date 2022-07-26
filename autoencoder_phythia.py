@@ -203,6 +203,8 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 		[x_11, x_12, x_13, x_14, x_21, x_22, x_23, x_24, x_31, x_32, x_33, x_34, x_41, x_42, x_43, x_44] = extract_data()
 
+
+
 		print("score is: ", score)
 		# Confusion matrix
 		from sklearn.metrics import confusion_matrix
