@@ -139,22 +139,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 			x_42 = []
 			x_43 = []
 			x_44 = []
-			x_11_count = 0
-			x_12_count = 0
-			x_13_count = 0
-			x_14_count = 0
-			x_21_count = 0
-			x_22_count = 0
-			x_23_count = 0
-			x_24_count = 0
-			x_31_count = 0
-			x_32_count = 0
-			x_33_count = 0
-			x_34_count = 0
-			x_41_count = 0
-			x_42_count = 0
-			x_43_count = 0
-			x_44_count = 0
+
 
 
 			for true_index in range(len(Y_test)):
@@ -217,9 +202,21 @@ def autoencoder_pythia(sigma_1, sigma_2):
 					else:
 						x_44.append(X_test[true_index])
 
+			#Plot the pictures
+			plt.figure(figsize=(80, 4))
 
+			for i in range(len(x_11)):
+				if i < 10:
+					# display original images
+					ax = plt.subplot(3, 20, i + 1)
+					plt.imshow(x_11[i].reshape(28, 28))
+					plt.gray()
+					ax.get_xaxis().set_visible(False)
+					ax.get_yaxis().set_visible(False)
+			plt.title("True label = 1, Predicted label = 1")
+			plt.show(block=False)
 
-			extract_data()
+		extract_data()
 
 
 
@@ -230,7 +227,9 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		cm = confusion_matrix(y_true=Y_test, y_pred=y_pred_kmeans)
 		import seaborn as sns; sns.set()
 
+		plt.figure()
 		ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", )
+		plt.show(block=False)
 
 		from scipy.optimize import linear_sum_assignment as linear_assignment
 
