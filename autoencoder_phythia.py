@@ -158,74 +158,64 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 
 			for true_index in range(len(Y_test)):
-				for pred_index in range(len(y_pred_kmeans)):
+				# TODO single loop check indcies
+				pred_index = true_index
 
-					if Y_test[true_index] == 1:
+				if Y_test[true_index] == 1:
+					# TODO elif
+					if y_pred_kmeans[pred_index] == 1:
+						x_11.append(X_test[true_index])
 
-						if count <= 2:
-							if y_pred_kmeans[pred_index] == 1:
-								x_11.append(X_test[true_index])
-						else:
-							from numpy import asarray
-							from numpy import save
-							# define data
-							x_11 = asarray(x_11)
-							print(x_11.shape)
-							print(x_11[0])
-							# save to npy file
-							save('x_11.npy', x_11)
-							return"""
+					elif y_pred_kmeans[pred_index] == 2:
+						x_12.append(X_test[true_index])
 
-						"""if y_pred_kmeans[pred_index] == 2:
-							x_12.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 3:
+						x_13.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 3:
-							x_13.append(X_test[true_index])
+					else:
+						x_14.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 4:
-							x_14.append(X_test[true_index])
+				elif Y_test[true_index] == 2:
 
-					if Y_test[true_index] == 2:
+					if y_pred_kmeans[pred_index] == 1:
+						x_21.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 1:
-							x_21.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 2:
+						x_22.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 2:
-							x_22.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 3:
+						x_23.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 3:
-							x_23.append(X_test[true_index])
+					else:
+						x_24.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 4:
-							x_24.append(X_test[true_index])
+				elif Y_test[true_index] == 3:
 
-					if Y_test[true_index] == 3:
+					if y_pred_kmeans[pred_index] == 1:
+						x_31.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 1:
-							x_31.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 2:
+						x_32.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 2:
-							x_32.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 3:
+						x_33.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 3:
-							x_33.append(X_test[true_index])
+					else:
+						x_34.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 4:
-							x_34.append(X_test[true_index])
+				else:
 
-					if Y_test[true_index] == 4:
+					if y_pred_kmeans[pred_index] == 1:
+						x_41.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 1:
-							x_41.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 2:
+						x_42.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 2:
-							x_42.append(X_test[true_index])
+					elif y_pred_kmeans[pred_index] == 3:
+						x_43.append(X_test[true_index])
 
-						if y_pred_kmeans[pred_index] == 3:
-							x_43.append(X_test[true_index])
-
-						if y_pred_kmeans[pred_index] == 4:
-							x_44.append(X_test[true_index])
+					else:
+						x_44.append(X_test[true_index])
 
 
 
