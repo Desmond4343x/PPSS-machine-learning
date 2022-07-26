@@ -124,16 +124,84 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
 		def extract_data():
 			x_11 = []
+			x_12 = []
+			x_13 = []
+			x_14 = []
+			x_21 = []
+			x_22 = []
+			x_23 = []
+			x_24 = []
+			x_31 = []
+			x_32 = []
+			x_33 = []
+			x_34 = []
+			x_41 = []
+			x_42 = []
+			x_43 = []
+			x_44 = []
+
 			for true_index in range(len(Y_test)):
 				for pred_index in range(len(y_pred_kmeans)):
 
 					if Y_test[true_index] == 1:
+
 						if y_pred_kmeans[pred_index] == 1:
 							x_11.append(X_test[true_index])
-							print(x_11)
-							return
-			print(x_11)
-		extract_data()
+
+						if y_pred_kmeans[pred_index] == 2:
+							x_12.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 3:
+							x_13.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 4:
+							x_14.append(X_test[true_index])
+
+					if Y_test[true_index] == 2:
+
+						if y_pred_kmeans[pred_index] == 1:
+							x_21.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 2:
+							x_22.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 3:
+							x_23.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 4:
+							x_24.append(X_test[true_index])
+
+					if Y_test[true_index] == 3:
+
+						if y_pred_kmeans[pred_index] == 1:
+							x_31.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 2:
+							x_32.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 3:
+							x_33.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 4:
+							x_34.append(X_test[true_index])
+
+					if Y_test[true_index] == 4:
+
+						if y_pred_kmeans[pred_index] == 1:
+							x_41.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 2:
+							x_42.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 3:
+							x_43.append(X_test[true_index])
+
+						if y_pred_kmeans[pred_index] == 4:
+							x_44.append(X_test[true_index])
+			return [x_11, x_12, x_13, x_14, x_21, x_22, x_23, x_24, x_31, x_32, x_33, x_34, x_41, x_42, x_43, x_44]
+
+
+		[x_11, x_12, x_13, x_14, x_21, x_22, x_23, x_24, x_31, x_32, x_33, x_34, x_41, x_42, x_43, x_44] = extract_data()
 
 		print("score is: ", score)
 		# Confusion matrix
