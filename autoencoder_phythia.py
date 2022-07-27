@@ -50,8 +50,8 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	# Parameters for blurring
 	#print(X_test)
 	X_plot = X_test
-	sigma_1 =2 #y_ish
-	sigma_2 =0 #x_ish
+	sigma_1 =100 #y_ish
+	sigma_2 =10 #x_ish
 	X_train = gaussian_filter(X_train, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_test = gaussian_filter(X_test, sigma=[sigma_1, sigma_2], order=0, output=None, mode='reflect', cval=0.0, truncate=4.0)
 	X_train = X_train.astype('float32') / 255
@@ -62,7 +62,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	# hyper parameters
 
 	batch_size = 256
-	epochs = 100
+	epochs = 20
 	bottle_dim = 4
 	# Neural net
 	########################################################################################################################
@@ -115,10 +115,11 @@ def autoencoder_pythia(sigma_1, sigma_2):
 
 	#Clustering
 	def clustering():
+		encoded_imgs_train = encoder.predict(X_train)
+		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_train)
 		encoded_imgs_test = encoder.predict(X_test)
-		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_test)
 		y_pred_kmeans = kmeans.predict(encoded_imgs_test)
-		y_pred_kmeans = y_pred_kmeans
+		y_pred_kmeans = y_pred_kmeans+1
 
 		#Scoring
 		score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
@@ -159,7 +160,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	pred_kmeans = clustering()
 
 	def extract_data(Y_test, y_pred_kmeans):
-		X_test = X_plot
+		#X_test = X_plot
 		x_11 = []
 		x_12 = []
 		x_13 = []

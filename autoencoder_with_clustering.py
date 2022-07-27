@@ -18,7 +18,7 @@ from sklearn.metrics import confusion_matrix
 
 
 #extracting data from MNIST
-numbers_used = [2, 3]
+numbers_used = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 train_mask = np.isin(Y_train, numbers_used)
 test_mask = np.isin(Y_test, numbers_used)
@@ -31,21 +31,39 @@ X_test = X_test.reshape(len(X_test), np.prod(X_test.shape[1:]))
 # hyper parameters
 
 batch_size = 256
-epochs = 1
-bottle_dim = 6
+epochs = 20
+bottle_dim = 4
 # Neural net
 ########################################################################################################################
 #Input layer
 input_img = Input(shape=(784,))
 # architecture
-encoded = Dense(units=400, activation='relu')(input_img)
-encoded = Dense(units=100, activation='relu')(encoded)
+encoded = Dense(units=794, activation='relu')(input_img)
+encoded = Dropout(0.8)(encoded)
+encoded = Dense(units=628, activation='relu')(encoded)
+encoded = Dropout(0.6)(encoded)
+encoded = Dense(units=461, activation='relu')(encoded)
+encoded = Dropout(0.5)(encoded)
+encoded = Dense(units=321, activation='relu')(encoded)
+encoded = Dropout(0.5)(encoded)
+encoded = Dense(units=180, activation='relu')(encoded)
+encoded = Dropout(0.2)(encoded)
+encoded = Dense(units=113, activation='relu')(encoded)
+encoded = Dropout(0.2)(encoded)
+encoded = Dense(units=45, activation='relu')(encoded)
+encoded = Dense(units=37, activation='relu')(encoded)
+encoded = Dropout(0.2)(encoded)
 encoded = Dense(units=29, activation='relu')(encoded)
+encoded = Dense(units=16, activation='relu')(encoded)
 encoded = Dense(units=bottle_dim, activation='linear')(encoded)
 
 decoded = Dense(units=29, activation='relu')(encoded)
-decoded = Dense(units=100, activation='relu')(decoded)
-decoded = Dense(units=400, activation='relu')(decoded)
+decoded = Dense(units=45, activation='relu')(decoded)
+decoded = Dense(units=180, activation='relu')(decoded)
+decoded = Dense(units=461, activation='relu')(decoded)
+decoded = Dense(units=794, activation='relu')(decoded)
+
+
 # output layer
 decoded = Dense(units=784, activation='sigmoid')(decoded)
 ##################################################################################################################
@@ -57,7 +75,7 @@ autoencoder.summary()
 
 encoder.summary()
 
-autoencoder.compile(optimizer='adam', loss='MSE', metrics=['accuracy'])
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 history = autoencoder.fit(X_train, X_train,
                           epochs=epochs,
                           batch_size=batch_size,
@@ -85,7 +103,7 @@ loss_plot()
 #Clustering
 def clustering():
 	encoded_imgs_test = encoder.predict(X_test)
-	kmeans = KMeans(n_clusters=len(numbers_used), n_init=400).fit(encoded_imgs_test)
+	kmeans = KMeans(n_clusters=len(numbers_used), n_init=10).fit(encoded_imgs_test)
 	y_pred_kmeans = kmeans.predict(encoded_imgs_test)
 	#Scoring
 	score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)

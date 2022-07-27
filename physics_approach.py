@@ -469,7 +469,7 @@ def main():
 	[clust_test_data, clust_test_labels] = x_values(X_test, Y_test)
 	classes_used = len(numbers_used)
 	y_pred_kmeans = cluster(classes_used, clust_train_data, clust_test_data, clust_test_labels)
-	extract_data(X_test, Y_test, y_pred_kmeans)
+	#extract_data(X_test, Y_test, y_pred_kmeans)
 	plt.show()
 
 
