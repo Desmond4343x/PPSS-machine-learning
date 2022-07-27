@@ -118,7 +118,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 		encoded_imgs_test = encoder.predict(X_test)
 		kmeans = KMeans(n_clusters=len(numbers_used), n_init=40).fit(encoded_imgs_test)
 		y_pred_kmeans = kmeans.predict(encoded_imgs_test)
-		y_pred_kmeans = y_pred_kmeans + 1
+		y_pred_kmeans = y_pred_kmeans
 
 		#Scoring
 		score = sklearn.metrics.rand_score(Y_test, y_pred_kmeans)
