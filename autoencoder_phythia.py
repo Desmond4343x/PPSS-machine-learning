@@ -62,7 +62,7 @@ def autoencoder_pythia(sigma_1, sigma_2):
 	# hyper parameters
 
 	batch_size = 256
-	epochs = 20
+	epochs = 10
 	bottle_dim = 4
 	# Neural net
 	########################################################################################################################
